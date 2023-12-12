@@ -1,4 +1,4 @@
-package com.hubberspot.algorithms.analysis;
+//package com.hubberspot.algorithms.analysis;
 import java.io.*;
 public class Timecomplexity{
 	public static void main(String[] args){
@@ -16,4 +16,3 @@ public class Timecomplexity{
 		
 		// return sum;
 	}
-}
