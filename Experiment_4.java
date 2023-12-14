@@ -44,7 +44,7 @@ JOptionPane.showMessageDialog(actualWindow,"Divisor can not be ZERO");
 	} 
 	} 
 } 
-public class Experiment_4
+public class new
  { 
 	public static void main(String[] args) 
 { 		
