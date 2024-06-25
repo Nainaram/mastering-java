@@ -6,6 +6,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Shapes",
+            "request": "launch",
+            "mainClass": "Shapes",
+            "projectName": "mastering-java_692ae61e"
+        },
+        {
+            "type": "java",
+            "name": "OOPExample",
+            "request": "launch",
+            "mainClass": "OOPExample",
+            "projectName": "mastering-java_692ae61e"
+        },
+        {
+            "type": "java",
             "name": "Drivingschool",
             "request": "launch",
             "mainClass": "Drivingschool",

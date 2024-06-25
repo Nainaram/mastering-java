@@ -2,8 +2,8 @@ import javax.swing.*;
 import java.awt.event.*;  
 public class 	OptionPaneExample1 extends WindowAdapter{  
 JFrame f;  
-OptionPaneExample(){  
-    f=new JFrame();   
+  void OptionPaneExample(){  
+   JFrame f=new JFrame();   
     f.addWindowListener(this);  
     f.setSize(300, 300);  
     f.setLayout(null);  
