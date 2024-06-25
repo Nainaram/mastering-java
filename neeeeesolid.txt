@@ -1,0 +1,78 @@
+pragma solidity ^0.8.0;
+
+contract CollegeAdmissions {
+    
+    struct College {
+        string name;
+        bool isAccredited;
+        address admin;
+    }
+    
+    struct Student {
+        string name;
+        uint256 studentId;
+        address[] collegeList;
+        mapping (address => bool) isApplied;
+        mapping (address => bool) isAdmitted;
+        Certificate[] certificates;
+    }
+    
+    struct Certificate {
+        string name;
+        string issuer;
+        string[] fields;
+    }
+    
+    mapping (address => College) public colleges;
+    mapping (uint256 => Student) public students;
+    
+    event NewCollegeAdded(string name, address indexed admin);
+    event NewStudentRegistered(string name, uint256 studentId);
+    event CollegeAccredited(address indexed college);
+    event CollegeApplicationSubmitted(uint256 studentId, address indexed college);
+    event CollegeAdmissionOffered(uint256 studentId, address indexed college);
+    event CertificateAdded(uint256 studentId, string name, string issuer);
+    
+    function addCollege(string memory _name) public {
+        require(colleges[msg.sender].admin == address(0), "College already exists");
+        colleges[msg.sender].name = _name;
+        colleges[msg.sender].admin = msg.sender;
+        emit NewCollegeAdded(_name, msg.sender);
+    }
+    
+    function accreditCollege(address _collegeAddress) public {
+        require(msg.sender == colleges[_collegeAddress].admin, "Unauthorized access");
+        colleges[_collegeAddress].isAccredited = true;
+        emit CollegeAccredited(_collegeAddress);
+    }
+    
+    function registerStudent(string memory _name, uint256 _studentId) public {
+        require(students[_studentId].studentId == 0, "Student already registered");
+        students[_studentId].name = _name;
+        students[_studentId].studentId = _studentId;
+        emit NewStudentRegistered(_name, _studentId);
+    }
+    
+    function applyToCollege(uint256 _studentId, address _collegeAddress) public {
+        require(colleges[_collegeAddress].isAccredited == true, "College not accredited");
+        require(students[_studentId].isApplied[_collegeAddress] == false, "Already applied to this college");
+        students[_studentId].collegeList.push(_collegeAddress);
+        students[_studentId].isApplied[_collegeAddress] = true;
+        emit CollegeApplicationSubmitted(_studentId, _collegeAddress);
+    }
+    
+    function offerAdmission(uint256 _studentId, address _collegeAddress) public {
+        require(msg.sender == colleges[_collegeAddress].admin, "Unauthorized access");
+        require(students[_studentId].isAdmitted[_collegeAddress] == false, "Already admitted to this college");
+        students[_studentId].isAdmitted[_collegeAddress] = true;
+        emit CollegeAdmissionOffered(_studentId, _collegeAddress);
+    }
+    
+    function addCertificate(uint256 _studentId, string memory _name, string memory _issuer, string[] memory _fields) public {
+        require(msg.sender == address(this), "Unauthorized access");
+        students[_studentId].certificates.push(Certificate(_name, _issuer, _fields));
+        emit CertificateAdded(_studentId, _name, _issuer);
+    }
+    
+    function getCertificates(uint256 _studentId) public view returns (Certificate[] memory) {
+        return students[_studentId].certificates;
