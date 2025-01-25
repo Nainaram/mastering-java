@@ -1,15 +1,12 @@
-import java.io.*;
-public class Factorial {
-
-    public static void main(String[] args) {
-
-        int num = -1;
-        long factorial = 1;
-        for(int i = 1; i <= num; ++i)
-        {
-            // factorial = factorial * i;
-            factorial *= i;
+public class factorial{
+    public static int fact(int n){
+        if(n == 0 ||n==1){
+            return 1;
         }
-        System.out.printf("  Factorial of %d = %d", num, factorial);
+        return n*fact(n-1);
+    }
+    public static void main(String[] args) {
+        int n = 5;
+        System.out.println(fact(n));
     }
 }
